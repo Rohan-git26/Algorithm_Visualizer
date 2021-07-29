@@ -6,10 +6,10 @@ import { bubbleSort } from './SortingAlgorithms/bubbleSort';
 import { quickSort } from './SortingAlgorithms/quickSort';
 
 
-const ANIMATION_SPEED_MS = 3
+const ANIMATION_SPEED_MS = 5
 const PRIMARY_COLOR = 'turquoise'
 const SECONDARY_COLOR = 'red'
-const NO_OF_BARS = 100
+const NO_OF_BARS = 40
 
 const SortingVisualizer = () =>{
     const [array, setArray] = useState([])
@@ -125,7 +125,7 @@ const SortingVisualizer = () =>{
                 setTimeout(()=>{
                     barOneStyle.backgroundColor = color
                     barTwoStyle.backgroundColor = color
-                }, i*20)
+                }, i*ANIMATION_SPEED_MS)
             }
             else if(element[0] === 1){
                 setTimeout(() =>{
@@ -136,7 +136,7 @@ const SortingVisualizer = () =>{
                     barOneStyle.height = barTwoStyle.height
                     barTwoStyle.height = temp
 
-                },i*20)
+                },i*ANIMATION_SPEED_MS)
             }
         
         
