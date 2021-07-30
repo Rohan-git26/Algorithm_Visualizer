@@ -6,14 +6,15 @@ import { bubbleSort } from './SortingAlgorithms/bubbleSort';
 import { quickSort } from './SortingAlgorithms/quickSort';
 
 
-const ANIMATION_SPEED_MS = 5
+const ANIMATION_SPEED_MS = 7
 const PRIMARY_COLOR = 'turquoise'
 const SECONDARY_COLOR = 'red'
-const NO_OF_BARS = 40
+const NO_OF_BARS = 50
 
 const SortingVisualizer = () =>{
     const [array, setArray] = useState([])
 
+    //Run this during first render
     useEffect(()=>{
         const {_height} = getWindowDimensions();
 
@@ -28,7 +29,7 @@ const SortingVisualizer = () =>{
     },[])
 
 
-
+    //Getting dimensions of window
     function getWindowDimensions() {
         const { innerWidth: width, innerHeight: _height } = window;
         return {
@@ -37,8 +38,10 @@ const SortingVisualizer = () =>{
         };
       }
     
+    //Calling getWindowDimensions method(destructering)
     const {_height} = getWindowDimensions();
 
+    //creating new random array
     const resetArray = () =>{
         const temp = [];
         for(let i=0; i<NO_OF_BARS; i++){
@@ -46,42 +49,71 @@ const SortingVisualizer = () =>{
         }
         setArray(temp);
     }
-
+    
+    //Creating random Integer
     const randomIntFromInterval = (min,max) =>{
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
     
-
+    //BubbleSort animation
     const _bubbleSort =  () =>{
         const animations = bubbleSort(array)
-        for(let i = 0; i<animations.length; i++){
+        const len = animations.length - 1
+        for(let i = 0; i<len + 1; i++){
             const arrayBars = document.getElementsByClassName("arraybar")
             const child = animations[i]
             const isColorChange = i % 3 !== 2;
-            if(isColorChange && child[0] === 0){
-                const barOneStyle = arrayBars[child[1]].style
-                const barTwoStyle = arrayBars[child[2]].style
+            if(child[0] === 2){
+                const [,barOneIdx,barTwoIdx] = animations[i]
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style
                 const color =  i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR
+
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = color
+                    barTwoStyle.backgroundColor = "green"
+                   
+                }, i*ANIMATION_SPEED_MS)
+            }
+            else if(child[0] === 3){
+                const [,barOneIdx,barTwoIdx] = animations[i]
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style                
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = "green"
+                    barTwoStyle.backgroundColor = "green"
+                   
+                }, i*ANIMATION_SPEED_MS)
+                setTimeout(()=>{
+                },i*ANIMATION_SPEED_MS)
+            }
+            else if(isColorChange && child[0] === 0){
+                const [,barOneIdx,barTwoIdx] = animations[i]
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style
+                let color =  i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR
+                
                 setTimeout(()=>{
                     barOneStyle.backgroundColor = color
                     barTwoStyle.backgroundColor = color
+                   
                 }, i*ANIMATION_SPEED_MS)
             }
             else if(child[0] === 1){
                 setTimeout(() =>{
-                    const [swap,barOneIdx, barTwoIdx] = animations[i]
+                    const [,barOneIdx, barTwoIdx] = animations[i]
                     const barOneStyle = arrayBars[barOneIdx].style
                     const barTwoStyle = arrayBars[barTwoIdx].style
-                    console.log(barOneStyle.height)
                     let temp = barOneStyle.height
                     barOneStyle.height = barTwoStyle.height
                     barTwoStyle.height = temp
-
+                   
                 },i*ANIMATION_SPEED_MS)
             }
         }
     }
 
+    //MergeSort Animation
     const _mergeSort = () =>{
         const animations = mergeSort(array);
         for(let i=0; i < animations.length; i++){
@@ -110,6 +142,7 @@ const SortingVisualizer = () =>{
         }
     }
 
+    //QuickSort Animation
     const _quickSort = () =>{
         const animations = quickSort(array,0,array.length-1)
         
@@ -117,7 +150,17 @@ const SortingVisualizer = () =>{
             const arrayBars = document.getElementsByClassName("arraybar")
             const isColorChange = i % 3 !== 2;
             const element = animations[i]
-            if(isColorChange){
+            if(element[0] === 2){
+                const child = animations[i]
+                const barOneStyle = arrayBars[child[1]].style
+                const barTwoStyle = arrayBars[child[2]].style
+                const color =  i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = color
+                    barTwoStyle.backgroundColor = "yellow"
+                }, i*ANIMATION_SPEED_MS)
+            }
+            else if(isColorChange){
                 const child = animations[i]
                 const barOneStyle = arrayBars[child[1]].style
                 const barTwoStyle = arrayBars[child[2]].style
@@ -129,7 +172,7 @@ const SortingVisualizer = () =>{
             }
             else if(element[0] === 1){
                 setTimeout(() =>{
-                    const [swap,barOneIdx, barTwoIdx] = animations[i]
+                    const [,barOneIdx, barTwoIdx] = animations[i]
                     const barOneStyle = arrayBars[barOneIdx].style
                     const barTwoStyle = arrayBars[barTwoIdx].style
                     let temp = barOneStyle.height
@@ -138,12 +181,8 @@ const SortingVisualizer = () =>{
 
                 },i*ANIMATION_SPEED_MS)
             }
-        
-        
         }
                
-            
-
     }
     return(
         <div className="array-container">
@@ -153,7 +192,7 @@ const SortingVisualizer = () =>{
                     key={index}
                     style={{ 
                         height : `${value}px`,
-                        backgroundColor : PRIMARY_COLOR }}>
+                        backgroundColor : PRIMARY_COLOR }}> 
                 </div>)}
             <button onClick={()=>resetArray()}>Generate new  Array</button>
             <button onClick={_bubbleSort}>bubbleSort</button>

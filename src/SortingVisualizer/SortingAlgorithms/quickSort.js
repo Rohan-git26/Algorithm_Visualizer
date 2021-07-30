@@ -15,7 +15,6 @@ export function quickSortHelper(array,start,end,animations){
 function partition(array,start,end,animations){
     const pivot = array[end]
     let i = start
-    let k = 0
 
     for(let j = start; j<=end - 1; j++){
         animations.push([0,j,end])
@@ -28,7 +27,7 @@ function partition(array,start,end,animations){
             i++
             if(j === (end -1)){
                 animations.push([0,i,end])
-                animations.push([0,i,end])
+                animations.push([2,i,end])
                 animations.push([1,i,end])
             }
         }
@@ -36,7 +35,7 @@ function partition(array,start,end,animations){
             animations.push([-1,i,j])
             if(j === (end -1)){
                 animations.push([0,i,end])
-                animations.push([0,i,end])
+                animations.push([2,i,end])
                 animations.push([1,i,end])
             }
         }
