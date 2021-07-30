@@ -5,6 +5,12 @@ export function quickSort(array){
 }
 
 export function quickSortHelper(array,start,end,animations){
+    if(start >= end){
+        animations.push([-2,start,end])
+        animations.push([-2,start,end])
+        animations.push([3,start,end])
+
+    }
     if(start<end){
         const pIndex = partition(array,start,end,animations)
         quickSortHelper(array,start,pIndex-1,animations)

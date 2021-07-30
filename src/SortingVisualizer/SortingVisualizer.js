@@ -6,7 +6,8 @@ import { bubbleSort } from './SortingAlgorithms/bubbleSort';
 import { quickSort } from './SortingAlgorithms/quickSort';
 
 
-const ANIMATION_SPEED_MS = 7
+
+const ANIMATION_SPEED_MS = 40
 const PRIMARY_COLOR = 'turquoise'
 const SECONDARY_COLOR = 'red'
 const NO_OF_BARS = 50
@@ -150,20 +151,35 @@ const SortingVisualizer = () =>{
             const arrayBars = document.getElementsByClassName("arraybar")
             const isColorChange = i % 3 !== 2;
             const element = animations[i]
+            if(element[0] === 3){
+                const barTwoIdx = element[2] <= 0 ? 0 : element[2]
+                const barOneIdx = element[1] <= 0 ? 0 : element[1]
+
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = "green"
+                    barTwoStyle.backgroundColor = "green"
+                }, i*ANIMATION_SPEED_MS)
+            }
             if(element[0] === 2){
                 const child = animations[i]
                 const barOneStyle = arrayBars[child[1]].style
                 const barTwoStyle = arrayBars[child[2]].style
                 const color =  i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR
                 setTimeout(()=>{
-                    barOneStyle.backgroundColor = color
-                    barTwoStyle.backgroundColor = "yellow"
+                    barOneStyle.backgroundColor = "green"
+                    barTwoStyle.backgroundColor = color
                 }, i*ANIMATION_SPEED_MS)
             }
             else if(isColorChange){
                 const child = animations[i]
-                const barOneStyle = arrayBars[child[1]].style
-                const barTwoStyle = arrayBars[child[2]].style
+                const barTwoIdx = child[2] <= 0 ? 0 : child[2]
+                const barOneIdx = child[1] <= 0 ? 0 : child[1]
+
+
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style
                 const color =  i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR
                 setTimeout(()=>{
                     barOneStyle.backgroundColor = color
@@ -184,6 +200,8 @@ const SortingVisualizer = () =>{
         }
                
     }
+
+    
     return(
         <div className="array-container">
             {array.map((value,index)=>
