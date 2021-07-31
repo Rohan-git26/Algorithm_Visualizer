@@ -7,7 +7,7 @@ import { quickSort } from './SortingAlgorithms/quickSort';
 
 
 
-const ANIMATION_SPEED_MS = 40
+const ANIMATION_SPEED_MS = 2
 const PRIMARY_COLOR = 'turquoise'
 const SECONDARY_COLOR = 'red'
 const NO_OF_BARS = 50
@@ -63,42 +63,57 @@ const SortingVisualizer = () =>{
         for(let i = 0; i<len + 1; i++){
             const arrayBars = document.getElementsByClassName("arraybar")
             const child = animations[i]
-            const isColorChange = i % 3 !== 2;
-            if(child[0] === 2){
-                const [,barOneIdx,barTwoIdx] = animations[i]
+            const isColorChange = i%3 !== 1
+            if(isColorChange){
+                if(child[0] === 0){
+                const barIdx = animations[i]
+                const barOneIdx = barIdx[1]
+                const barTwoIdx = barIdx[2]
                 const barOneStyle = arrayBars[barOneIdx].style
                 const barTwoStyle = arrayBars[barTwoIdx].style
                 const color =  i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR
-
-                setTimeout(()=>{
-                    barOneStyle.backgroundColor = color
-                    barTwoStyle.backgroundColor = "green"
-                   
-                }, i*ANIMATION_SPEED_MS)
-            }
-            else if(child[0] === 3){
-                const [,barOneIdx,barTwoIdx] = animations[i]
-                const barOneStyle = arrayBars[barOneIdx].style
-                const barTwoStyle = arrayBars[barTwoIdx].style                
-                setTimeout(()=>{
-                    barOneStyle.backgroundColor = "green"
-                    barTwoStyle.backgroundColor = "green"
-                   
-                }, i*ANIMATION_SPEED_MS)
-                setTimeout(()=>{
-                },i*ANIMATION_SPEED_MS)
-            }
-            else if(isColorChange && child[0] === 0){
-                const [,barOneIdx,barTwoIdx] = animations[i]
-                const barOneStyle = arrayBars[barOneIdx].style
-                const barTwoStyle = arrayBars[barTwoIdx].style
-                let color =  i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR
-                
                 setTimeout(()=>{
                     barOneStyle.backgroundColor = color
                     barTwoStyle.backgroundColor = color
-                   
                 }, i*ANIMATION_SPEED_MS)
+            }
+            else if(child[0] === 4){
+                const barIdx = animations[i]
+                const barOneIdx = barIdx[1]
+                const barTwoIdx = barIdx[2]
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style
+                const color =  i % 3 === 0 ? "yellow" : PRIMARY_COLOR
+
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = color
+                    barTwoStyle.backgroundColor = color
+                }, i*ANIMATION_SPEED_MS)
+            }
+            else if(child[0] === 2){
+                const barIdx = animations[i]
+                const barOneIdx = barIdx[1]
+                const barTwoIdx = barIdx[2]
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = PRIMARY_COLOR
+                    barTwoStyle.backgroundColor = "green"
+                }, i*ANIMATION_SPEED_MS)
+            }
+             else if(child[0] === 3){
+                const barIdx = animations[i]
+                const barOneIdx = barIdx[1]
+                const barTwoIdx = barIdx[2]
+                const barOneStyle = arrayBars[barOneIdx].style
+                const barTwoStyle = arrayBars[barTwoIdx].style
+                setTimeout(()=>{
+                    barOneStyle.backgroundColor = "green"
+                    barTwoStyle.backgroundColor = "green"
+                }, i*ANIMATION_SPEED_MS)
+            }
+
+
             }
             else if(child[0] === 1){
                 setTimeout(() =>{
@@ -108,9 +123,10 @@ const SortingVisualizer = () =>{
                     let temp = barOneStyle.height
                     barOneStyle.height = barTwoStyle.height
                     barTwoStyle.height = temp
-                   
+
                 },i*ANIMATION_SPEED_MS)
             }
+            
         }
     }
 
@@ -153,7 +169,7 @@ const SortingVisualizer = () =>{
             const element = animations[i]
             if(element[0] === 3){
                 const barTwoIdx = element[2] <= 0 ? 0 : element[2]
-                const barOneIdx = element[1] <= 0 ? 0 : element[1]
+                const barOneIdx = element[1] <=  0 ? 0 : element[1]
 
                 const barOneStyle = arrayBars[barOneIdx].style
                 const barTwoStyle = arrayBars[barTwoIdx].style
