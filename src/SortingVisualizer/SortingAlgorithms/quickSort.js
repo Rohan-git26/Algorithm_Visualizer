@@ -6,11 +6,15 @@ export function quickSort(array){
 
 export function quickSortHelper(array,start,end,animations){
     if(start >= end){
-        animations.push([-2,start,end])
-        animations.push([-2,start,end])
+        animations.push([-1,start,end])
+        animations.push([-1,start,end]) 
+        if(end<0) end = 0
+        if(start>array.length - 1) start = array.length-1
         animations.push([3,start,end])
 
+
     }
+
     if(start<end){
         const pIndex = partition(array,start,end,animations)
         quickSortHelper(array,start,pIndex-1,animations)
@@ -19,33 +23,31 @@ export function quickSortHelper(array,start,end,animations){
 }
 
 function partition(array,start,end,animations){
-    const pivot = array[end]
     let i = start
 
     for(let j = start; j<=end - 1; j++){
+        const pivot = array[end]
         animations.push([0,j,end])
-        animations.push([0,j,end])
-
         if(array[j]<=pivot){
-            animations.push([1,i,j])
-           
+
+            animations.push([])
+            animations.push([0,j,end])
+            
             swap(array,i,j)
+            animations.push([4,i,j])
+            animations.push([1,i,j])
+            animations.push([4,i,j])
             i++
-            if(j === (end -1)){
-                animations.push([0,i,end])
-                animations.push([2,i,end])
-                animations.push([1,i,end])
-            }
         }
         else{
             animations.push([-1,i,j])
-            if(j === (end -1)){
-                animations.push([0,i,end])
-                animations.push([2,i,end])
-                animations.push([1,i,end])
-            }
-        }
+            animations.push([0,j,end])
+        }       
     }
+    animations.push([4,i,end])
+    animations.push([1,i,end])
+    animations.push([2,i,end])
+
     swap(array,i,end)
     return i
 }
