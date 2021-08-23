@@ -1,9 +1,8 @@
 import { bubbleSort } from '../SortingAlgorithms/bubbleSort'
-const ANIMATION_SPEED_MS = 2
 const PRIMARY_COLOR = 'turquoise'
 const SECONDARY_COLOR = 'red'
 
-const bubbleSortAnimation = (array) =>{
+const bubbleSortAnimation = (array,ANIMATION_SPEED_MS) =>{
     const animations = bubbleSort(array)
         const len = animations.length - 1
         for(let i = 0; i<len + 1; i++){

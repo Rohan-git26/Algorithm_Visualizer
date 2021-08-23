@@ -1,11 +1,10 @@
 import { quickSort } from "../SortingAlgorithms/quickSort";
 
-const ANIMATION_SPEED_MS = 10
 const PRIMARY_COLOR = 'turquoise'
 const SECONDARY_COLOR = 'red'
 const COMPARING_COLOR = 'yellow'
 const FINAL_COLOR = 'purple'
-const quickSortAnimation = (array) =>{
+const quickSortAnimation = (array,ANIMATION_SPEED_MS) =>{
         const animations = quickSort(array)        
         for(let i = 0 ; i < animations.length; i++){
             const arrayBars = document.getElementsByClassName("arraybar")

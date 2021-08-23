@@ -1,12 +1,25 @@
 .array-container {
-    position: relative;
-    bottom: -150px;
+    
 }
 
 .arraybar {
-    width: 10px;
-    background-color: turquoise;
     display: inline-block;
     margin: 0px 1px;
 }
+
+.arraybar-container{
+    background-color:  yellow;
+    padding-left: 90px;
+
+}
+
+.slider-container{
+    background-color: aqua;
+}
+
+.infoBar-container{
+    background-color: blueviolet;
+}
+
+
 
