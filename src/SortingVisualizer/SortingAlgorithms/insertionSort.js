@@ -6,8 +6,8 @@ export function insertionSort(array){
     {
         key = array[i];
         j = i - 1;
-        animations.push([3,i])
         animations.push([])
+        animations.push([3,i])
         animations.push([])
  
         /* Move elements of array[0..i-1], that are
@@ -21,10 +21,10 @@ export function insertionSort(array){
             animations.push([4,j+1,j])
             j = j - 1;
         }
-        animations.push([4,j+1,i])
-        animations.push([1,j+1,i])
-        array[j + 1] = key;
         animations.push([-4,j+1,i])
+        animations.push([-1,j+1,i])
+        array[j + 1] = key;
+        animations.push([-5,j+1,i])
 
     }
     return animations

@@ -46,9 +46,10 @@ export function dijkstra(grid, startNode, finishNode) {
   function getAllNodes(grid) {
     const nodes = [];
     for (const row of grid) {
-      for (const node of row) {
-        nodes.push(node);
-      }
+      nodes.push(...row)
+      // for (const node of row) {
+      //   nodes.push(node);
+      // }
     }
     return nodes;
   }

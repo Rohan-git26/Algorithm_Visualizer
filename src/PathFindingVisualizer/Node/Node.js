@@ -7,9 +7,9 @@ export const Node = (props) => {
     return (
         <div id={`node-${row}-${col}`}
             className={`node ${extraClassName}`}
-            onMouseDown={()=>console.log("MouseDown")}
-            onMouseEnter={()=>console.log("MouseEnter")}
-            onMouseUp={()=>console.log("MouseUp")}>
+            onMouseDown={()=>onMouseDown()}
+            onMouseEnter={()=>onMouseEnter()}
+            onMouseUp={()=>onMouseUp()}>
         </div>
     )
 }

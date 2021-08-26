@@ -1,26 +1,35 @@
 import React, { useState, useEffect } from "react";
 import Slider from "@material-ui/core/Slider";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
 import "./SortingVisualizer.css";
-import { mergeSort } from "./SortingAlgorithms/mergeSort";
 import bubbleSortAnimation from "./SortingAnimations/bubbleSortAnimation";
 import quickSortAnimation from "./SortingAnimations/quickSortAnimation";
 import selectionSortAnimation from "./SortingAnimations/selectionSortAnimation";
 import insertionSortAnimation from "./SortingAnimations/insertionSortAnimation";
+import mergeSortAnimation from "./SortingAnimations/mergeSortAnimation";
 const useStyles = makeStyles({
   root: {
-    width: 200,
+    width: 165,
+    position : "relative",
+    bottom : 8,
   },
+  label:{
+    fontSize : 14,
+    position : "relative",
+    top : 2,
+    color : "white",
+    fontWeight : "bold"
+  }
 });
 const PRIMARY_COLOR = "turquoise";
-const SECONDARY_COLOR = "red";
-
 const SortingVisualizer = () => {
   const classes = useStyles();
   const [array, setArray] = useState([]);
   const [value, setValue] = useState(30);
   const [ANIMATION_SPEED_MS, setANIMATION_SPEED_MS] = useState(2);
+  const [currentSort, setCurrentSort] = useState("Algorithms");
 
   //Run this during first render
   useEffect(() => {
@@ -75,29 +84,7 @@ const SortingVisualizer = () => {
 
   //MergeSort Animation
   const _mergeSort = () => {
-    const animations = mergeSort(array);
-    for (let i = 0; i < animations.length; i++) {
-      const arrayBars = document.getElementsByClassName("arraybar");
-      const isColorChange = i % 3 !== 1;
-      if (isColorChange) {
-        const barIdx = animations[i];
-        const barOneIdx = barIdx[0];
-        const barTwoIdx = barIdx[1];
-        const barOneStyle = arrayBars[barOneIdx].style;
-        const barTwoStyle = arrayBars[barTwoIdx].style;
-        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
-        setTimeout(() => {
-          barOneStyle.backgroundColor = color;
-          barTwoStyle.backgroundColor = color;
-        }, i * ANIMATION_SPEED_MS);
-      } else {
-        setTimeout(() => {
-          const [barOneIdx, newHeight] = animations[i];
-          const barOneStyle = arrayBars[barOneIdx].style;
-          barOneStyle.height = `${newHeight}px`;
-        }, i * ANIMATION_SPEED_MS);
-      }
-    }
+    mergeSortAnimation(array, ANIMATION_SPEED_MS);
   };
 
   //QuickSort Animation
@@ -109,7 +96,7 @@ const SortingVisualizer = () => {
     selectionSortAnimation(array, ANIMATION_SPEED_MS);
   };
   const _insertionSort = () => {
-    insertionSortAnimation(array);
+    insertionSortAnimation(array, ANIMATION_SPEED_MS);
   };
   const handleChange = (event, value) => {
     setValue(value);
@@ -117,44 +104,75 @@ const SortingVisualizer = () => {
   };
   const handleChangeSpeed = (event, value) => {
     setANIMATION_SPEED_MS(value);
-    console.log(value);
+  };
+  const handleChangeCurrentSort = (event) => {
+    setCurrentSort(event.target.value);
+  };
+  const visualizeAlgorithm = () => {
+    switch (currentSort) {
+      case "bubbleSort":
+        _bubbleSort();
+        break;
+      case "insertionSort":
+        _insertionSort();
+        break;
+      case "quickSort":
+        _quickSort();
+        break;
+      case "mergeSort":
+        _mergeSort();
+        break;
+      case "selectionSort":
+        _selectionSort();
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <div className="array-container">
       <div className="infoBar-container">
         <div className="slider-container">
-         
-            <Slider
-              className={classes.root}
-              value={ANIMATION_SPEED_MS}
-              min={2}
-              max={250}
-              onChange={handleChangeSpeed}
-              aria-labelledby="continuous-slider"
-            />
-         
-     
-            <Slider
-              className={classes.root}
-              value={value}
-              min={10}
-              max={newWidth / 5}
-              onChange={handleChange}
-              aria-labelledby="continuous-slider"
-            />
-        
+        <Typography className={classes.label} gutterBottom>
+              SPEED
+          </Typography>          
+          <Slider
+            className={classes.root}
+            value={ANIMATION_SPEED_MS}
+            min={2}
+            max={230}
+            onChange={handleChangeSpeed}
+            aria-labelledby="continuous-slider"
+          />
+          <Typography className={classes.label}>
+            BARS
+          </Typography>
+          <Slider
+            className={classes.root}
+            value={value}
+            min={10}
+            max={newWidth / 5}
+            onChange={handleChange}
+            aria-labelledby="continuous-slider"
+          />
         </div>
-        <div>
+        <div className="button-container">
           {/* Button 3 */}
           <button onClick={() => resetArray(value)}>Generate new Array</button>
-          <button onClick={_bubbleSort}>bubbleSort</button>
-          <button onClick={_mergeSort}>mergeSort</button>
+          <select onChange={handleChangeCurrentSort} className="dropdown-list">
+            <option selected value="bubbleSort">
+              Bubble Sort
+            </option>
+            <option value="insertionSort">Insertion Sort</option>
+            <option value="quickSort">Quick Sort</option>
+            <option value="mergeSort">Merge Sort</option>
+            <option value="selectionSort">SelectionSort</option>
+          </select>
+          <button onClick={visualizeAlgorithm}>Visuaize Algorithm</button>
         </div>
-        <div>
-          {/* Graph or Index */}
-          <button onClick={_bubbleSort}>bubbleSort</button>
-          <button onClick={_mergeSort}>mergeSort</button>
+        <div className="grap-container">{/* Graph or Index */}
+            <button>Button</button>
         </div>
       </div>
 
@@ -173,13 +191,6 @@ const SortingVisualizer = () => {
           ></div>
         ))}
       </div>
-
-      <button onClick={() => resetArray(value)}>Generate new Array</button>
-      <button onClick={_bubbleSort}>bubbleSort</button>
-      <button onClick={_mergeSort}>mergeSort</button>
-      <button onClick={_quickSort}>quickSort</button>
-      <button onClick={_selectionSort}>selectionSort</button>
-      <button onClick={_insertionSort}>insertionSort</button>
     </div>
   );
 };
